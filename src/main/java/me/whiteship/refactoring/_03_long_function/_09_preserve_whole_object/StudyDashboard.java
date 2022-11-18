@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -47,16 +46,7 @@ public class StudyDashboard {
                         List<GHIssueComment> comments = issue.getComments();
 
                         for (GHIssueComment comment : comments) {
-                            String username = comment.getUserName();
-                            boolean isNewUser = participants.stream().noneMatch(p -> p.username().equals(username));
-                            Participant participant = null;
-                            if (isNewUser) {
-                                participant = new Participant(username);
-                                participants.add(participant);
-                            } else {
-                                participant = participants.stream().filter(p -> p.username().equals(username)).findFirst().orElseThrow();
-                            }
-
+                            Participant participant = findParticipant(comment.getUserName(), participants);
                             participant.setHomeworkDone(eventId);
                         }
 
@@ -78,23 +68,28 @@ public class StudyDashboard {
             writer.print(header(participants.size()));
 
             participants.forEach(p -> {
-                String markdownForHomework = getMarkdownForParticipant(p.username(), p.homework());
+                String markdownForHomework = getMarkdownForParticipant(p);
                 writer.print(markdownForHomework);
             });
         }
     }
 
-    double getRate(Map<Integer, Boolean> homework) {
-        long count = homework.values().stream()
-                .filter(v -> v == true)
-                .count();
-        return (double) (count * 100 / this.totalNumberOfEvents);
+    private Participant findParticipant(String username, List<Participant> participants) {
+        boolean isNewUser = participants.stream().noneMatch(p -> p.username().equals(username));
+        Participant participant = null;
+        if (isNewUser) {
+            participant = new Participant(username);
+            participants.add(participant);
+        } else {
+            participant = participants.stream().filter(p -> p.username().equals(username)).findFirst().orElseThrow();
+        }
+        return participant;
     }
 
-    private String getMarkdownForParticipant(String username, Map<Integer, Boolean> homework) {
-        return String.format("| %s %s | %.2f%% |\n", username,
-                checkMark(homework, this.totalNumberOfEvents),
-                getRate(homework));
+    private String getMarkdownForParticipant(Participant participant) {
+        return String.format("| %s %s | %.2f%% |\n", participant.username(),
+                checkMark(participant, this.totalNumberOfEvents),
+                participant.getRate(this.totalNumberOfEvents));
     }
 
     /**
@@ -118,10 +113,10 @@ public class StudyDashboard {
     /**
      * |:white_check_mark:|:white_check_mark:|:white_check_mark:|:x:|
      */
-    private String checkMark(Map<Integer, Boolean> homework, int totalEvents) {
+    private String checkMark(Participant participant, int totalEvents) {
         StringBuilder line = new StringBuilder();
         for (int i = 1 ; i <= totalEvents ; i++) {
-            if(homework.containsKey(i) && homework.get(i)) {
+            if(participant.homework().containsKey(i) && participant.homework().get(i)) {
                 line.append("|:white_check_mark:");
             } else {
                 line.append("|:x:");
