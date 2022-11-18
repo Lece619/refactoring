@@ -54,6 +54,8 @@ public class StudyDashboard {
                         checkHomework(comments, eventId);
                         firstParticipantsForEachEvent[eventId - 1] = findFirst(comments);
                         latch.countDown();
+                        System.out.println("eventId = " + eventId);
+                        System.out.println("latch.getCount() = " + latch.getCount());
                     } catch (IOException e) {
                         throw new IllegalArgumentException(e);
                     }
