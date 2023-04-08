@@ -1,7 +1,7 @@
 package me.whiteship.refactoring._10_data_clumps;
 
 public class Office {
-
+    //smell #10
     private String location;
 
     private TelephoneNumber officePhoneNumber;
