@@ -1,4 +1,4 @@
-package jinho.meetup._01_refactoring._03_anser;
+package jinho.meetup._01_refactoring._03_answer;
 
 public class ListClass {
     private static final int STORE_SIZE_INCREMENT = 10;
