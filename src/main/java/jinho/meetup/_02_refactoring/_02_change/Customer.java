@@ -32,9 +32,12 @@ class Customer {
 
         for(Rental rental : rentals) {
 
-            double thisAmount = rental.getAmount();
+            Movie rentaledMovie = rental.getMovie();
+
+            double thisAmount = rentaledMovie.getAmount();
             totalAmount  += thisAmount;
-            frequentRenterPoints = rental.getFrequentRenterPoints(frequentRenterPoints);
+            // add 를 1 or 2 증가로 할 수 있지만 frequentRenterPoints 로직이 변경될 수 있으므로 메소드로 추출
+            frequentRenterPoints = rentaledMovie.addFrequentRenterPoints(frequentRenterPoints);
 
             result.append(mainSentence(rental, thisAmount));
         }
