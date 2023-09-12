@@ -15,8 +15,8 @@ class NewReleaseMovie extends Movie {
     public int addFrequentRenterPoints(int frequentRenterPoints) {
 
         if(this.daysRented > 1)
-            frequentRenterPoints++;
+            frequentRenterPoints ++;
 
-        return super.addFrequentRenterPoints(frequentRenterPoints);
+        return frequentRenterPoints + DEFAULT_FREQUENT_RENTER_POINT;
     }
 }

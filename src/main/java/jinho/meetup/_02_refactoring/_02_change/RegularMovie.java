@@ -7,6 +7,12 @@ class RegularMovie extends Movie {
     }
 
     @Override
+    public int addFrequentRenterPoints(int frequentRenterPoints) {
+        frequentRenterPoints++;
+        return frequentRenterPoints + DEFAULT_FREQUENT_RENTER_POINT;
+    }
+
+    @Override
     public double getAmount() {
         double thisAmount = 2;
         if (this.daysRented > 2)

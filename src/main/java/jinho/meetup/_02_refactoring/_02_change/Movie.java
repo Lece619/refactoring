@@ -5,12 +5,14 @@ public class Movie {
     public static final int REGULAR = 0;
     public static final int NEW_RELEASE = 1;
 
+    protected static final int DEFAULT_FREQUENT_RENTER_POINT = 1;
+
     private String title;
     private int priceCode;
 
     protected int daysRented;
 
-    protected Movie(String title, int priceCode) {
+    public Movie(String title, int priceCode) {
         this.title = title;
         this.priceCode = priceCode;
     }
@@ -43,8 +45,8 @@ public class Movie {
         throw new UnsupportedOperationException();
     }
     public int addFrequentRenterPoints(int frequentRenterPoints) {
-        frequentRenterPoints++;
-        return frequentRenterPoints;
+        throw new UnsupportedOperationException();
     }
+
 }
 
