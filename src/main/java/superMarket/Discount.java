@@ -1,5 +1,7 @@
 package superMarket;
 
+
+//git repository : https://github.com/emilybache/
 public class Discount {
 
     private final String description;
