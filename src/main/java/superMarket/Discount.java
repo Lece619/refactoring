@@ -2,6 +2,7 @@ package superMarket;
 
 
 //git repository : https://github.com/emilybache/
+//추가 https://github.com/emilybache/GildedRose-Refactoring-Kata/tree/main/Java-Approvals
 public class Discount {
 
     private final String description;
